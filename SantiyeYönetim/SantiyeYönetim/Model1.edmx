@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SantiyeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="IsPresent" Type="bit" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Position" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="HireDate" Type="date" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tbl_Equipment">
+          <Key>
+            <PropertyRef Name="EquipmentID" />
+          </Key>
+          <Property Name="EquipmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" />
+          <Property Name="PurchaseDate" Type="date" />
+          <Property Name="IsOperational" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tbl_Materials">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="20" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StockQuantity" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Tbl_MaterialUsage">
+          <Key>
+            <PropertyRef Name="UsageID" />
+          </Key>
+          <Property Name="UsageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="MaterialID" Type="int" />
+          <Property Name="QuantityUsed" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UsageDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Tbl_ProjectAssignments">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="AssignedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Tbl_Projects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Budget" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Tbl_Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Tbl_Attendance_Tbl_Employees">
+          <End Role="Tbl_Employees" Type="Self.Tbl_Employees" Multiplicity="0..1" />
+          <End Role="Tbl_Attendance" Type="Self.Tbl_Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tbl_Attendance">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Attendance_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_Attendance" Type="Self.Tbl_Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_Attendance">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_MaterialUsage_Tbl_Materials">
+          <End Role="Tbl_Materials" Type="Self.Tbl_Materials" Multiplicity="0..1" />
+          <End Role="Tbl_MaterialUsage" Type="Self.Tbl_MaterialUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="Tbl_MaterialUsage">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_MaterialUsage_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_MaterialUsage" Type="Self.Tbl_MaterialUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_MaterialUsage">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_ProjectAssignments_Tbl_Employees">
+          <End Role="Tbl_Employees" Type="Self.Tbl_Employees" Multiplicity="0..1" />
+          <End Role="Tbl_ProjectAssignments" Type="Self.Tbl_ProjectAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tbl_ProjectAssignments">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_ProjectAssignments_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_ProjectAssignments" Type="Self.Tbl_ProjectAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_ProjectAssignments">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SantiyeModelStoreContainer">
+          <EntitySet Name="Tbl_Attendance" EntityType="Self.Tbl_Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Employees" EntityType="Self.Tbl_Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Equipment" EntityType="Self.Tbl_Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Materials" EntityType="Self.Tbl_Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_MaterialUsage" EntityType="Self.Tbl_MaterialUsage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_ProjectAssignments" EntityType="Self.Tbl_ProjectAssignments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Projects" EntityType="Self.Tbl_Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Users" EntityType="Self.Tbl_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tbl_Attendance_Tbl_Employees" Association="Self.FK_Tbl_Attendance_Tbl_Employees">
+            <End Role="Tbl_Employees" EntitySet="Tbl_Employees" />
+            <End Role="Tbl_Attendance" EntitySet="Tbl_Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Attendance_Tbl_Projects" Association="Self.FK_Tbl_Attendance_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_Attendance" EntitySet="Tbl_Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_MaterialUsage_Tbl_Materials" Association="Self.FK_Tbl_MaterialUsage_Tbl_Materials">
+            <End Role="Tbl_Materials" EntitySet="Tbl_Materials" />
+            <End Role="Tbl_MaterialUsage" EntitySet="Tbl_MaterialUsage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_MaterialUsage_Tbl_Projects" Association="Self.FK_Tbl_MaterialUsage_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_MaterialUsage" EntitySet="Tbl_MaterialUsage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_ProjectAssignments_Tbl_Employees" Association="Self.FK_Tbl_ProjectAssignments_Tbl_Employees">
+            <End Role="Tbl_Employees" EntitySet="Tbl_Employees" />
+            <End Role="Tbl_ProjectAssignments" EntitySet="Tbl_ProjectAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_ProjectAssignments_Tbl_Projects" Association="Self.FK_Tbl_ProjectAssignments_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_ProjectAssignments" EntitySet="Tbl_ProjectAssignments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SantiyeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_Attendance">
+          <Key>
+            <PropertyRef Name="AttendanceID" />
+          </Key>
+          <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="IsPresent" Type="Boolean" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Employees" Relationship="Self.FK_Tbl_Attendance_Tbl_Employees" FromRole="Tbl_Attendance" ToRole="Tbl_Employees" />
+          <NavigationProperty Name="Tbl_Projects" Relationship="Self.FK_Tbl_Attendance_Tbl_Projects" FromRole="Tbl_Attendance" ToRole="Tbl_Projects" />
+        </EntityType>
+        <EntityType Name="Tbl_Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HireDate" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Tbl_Attendance" Relationship="Self.FK_Tbl_Attendance_Tbl_Employees" FromRole="Tbl_Employees" ToRole="Tbl_Attendance" />
+          <NavigationProperty Name="Tbl_ProjectAssignments" Relationship="Self.FK_Tbl_ProjectAssignments_Tbl_Employees" FromRole="Tbl_Employees" ToRole="Tbl_ProjectAssignments" />
+        </EntityType>
+        <EntityType Name="Tbl_Equipment">
+          <Key>
+            <PropertyRef Name="EquipmentID" />
+          </Key>
+          <Property Name="EquipmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
+          <Property Name="IsOperational" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Tbl_Materials">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StockQuantity" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Tbl_MaterialUsage" Relationship="Self.FK_Tbl_MaterialUsage_Tbl_Materials" FromRole="Tbl_Materials" ToRole="Tbl_MaterialUsage" />
+        </EntityType>
+        <EntityType Name="Tbl_MaterialUsage">
+          <Key>
+            <PropertyRef Name="UsageID" />
+          </Key>
+          <Property Name="UsageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="MaterialID" Type="Int32" />
+          <Property Name="QuantityUsed" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UsageDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Tbl_Materials" Relationship="Self.FK_Tbl_MaterialUsage_Tbl_Materials" FromRole="Tbl_MaterialUsage" ToRole="Tbl_Materials" />
+          <NavigationProperty Name="Tbl_Projects" Relationship="Self.FK_Tbl_MaterialUsage_Tbl_Projects" FromRole="Tbl_MaterialUsage" ToRole="Tbl_Projects" />
+        </EntityType>
+        <EntityType Name="Tbl_ProjectAssignments">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="AssignedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Tbl_Employees" Relationship="Self.FK_Tbl_ProjectAssignments_Tbl_Employees" FromRole="Tbl_ProjectAssignments" ToRole="Tbl_Employees" />
+          <NavigationProperty Name="Tbl_Projects" Relationship="Self.FK_Tbl_ProjectAssignments_Tbl_Projects" FromRole="Tbl_ProjectAssignments" ToRole="Tbl_Projects" />
+        </EntityType>
+        <EntityType Name="Tbl_Projects">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Budget" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Tbl_Attendance" Relationship="Self.FK_Tbl_Attendance_Tbl_Projects" FromRole="Tbl_Projects" ToRole="Tbl_Attendance" />
+          <NavigationProperty Name="Tbl_MaterialUsage" Relationship="Self.FK_Tbl_MaterialUsage_Tbl_Projects" FromRole="Tbl_Projects" ToRole="Tbl_MaterialUsage" />
+          <NavigationProperty Name="Tbl_ProjectAssignments" Relationship="Self.FK_Tbl_ProjectAssignments_Tbl_Projects" FromRole="Tbl_Projects" ToRole="Tbl_ProjectAssignments" />
+        </EntityType>
+        <EntityType Name="Tbl_Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Tbl_Attendance_Tbl_Employees">
+          <End Role="Tbl_Employees" Type="Self.Tbl_Employees" Multiplicity="0..1" />
+          <End Role="Tbl_Attendance" Type="Self.Tbl_Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tbl_Attendance">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Attendance_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_Attendance" Type="Self.Tbl_Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_Attendance">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_ProjectAssignments_Tbl_Employees">
+          <End Role="Tbl_Employees" Type="Self.Tbl_Employees" Multiplicity="0..1" />
+          <End Role="Tbl_ProjectAssignments" Type="Self.Tbl_ProjectAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Tbl_ProjectAssignments">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_MaterialUsage_Tbl_Materials">
+          <End Role="Tbl_Materials" Type="Self.Tbl_Materials" Multiplicity="0..1" />
+          <End Role="Tbl_MaterialUsage" Type="Self.Tbl_MaterialUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="Tbl_MaterialUsage">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_MaterialUsage_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_MaterialUsage" Type="Self.Tbl_MaterialUsage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_MaterialUsage">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_ProjectAssignments_Tbl_Projects">
+          <End Role="Tbl_Projects" Type="Self.Tbl_Projects" Multiplicity="0..1" />
+          <End Role="Tbl_ProjectAssignments" Type="Self.Tbl_ProjectAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Projects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Tbl_ProjectAssignments">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SantiyeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_Attendance" EntityType="Self.Tbl_Attendance" />
+          <EntitySet Name="Tbl_Employees" EntityType="Self.Tbl_Employees" />
+          <EntitySet Name="Tbl_Equipment" EntityType="Self.Tbl_Equipment" />
+          <EntitySet Name="Tbl_Materials" EntityType="Self.Tbl_Materials" />
+          <EntitySet Name="Tbl_MaterialUsage" EntityType="Self.Tbl_MaterialUsage" />
+          <EntitySet Name="Tbl_ProjectAssignments" EntityType="Self.Tbl_ProjectAssignments" />
+          <EntitySet Name="Tbl_Projects" EntityType="Self.Tbl_Projects" />
+          <EntitySet Name="Tbl_Users" EntityType="Self.Tbl_Users" />
+          <AssociationSet Name="FK_Tbl_Attendance_Tbl_Employees" Association="Self.FK_Tbl_Attendance_Tbl_Employees">
+            <End Role="Tbl_Employees" EntitySet="Tbl_Employees" />
+            <End Role="Tbl_Attendance" EntitySet="Tbl_Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Attendance_Tbl_Projects" Association="Self.FK_Tbl_Attendance_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_Attendance" EntitySet="Tbl_Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_ProjectAssignments_Tbl_Employees" Association="Self.FK_Tbl_ProjectAssignments_Tbl_Employees">
+            <End Role="Tbl_Employees" EntitySet="Tbl_Employees" />
+            <End Role="Tbl_ProjectAssignments" EntitySet="Tbl_ProjectAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_MaterialUsage_Tbl_Materials" Association="Self.FK_Tbl_MaterialUsage_Tbl_Materials">
+            <End Role="Tbl_Materials" EntitySet="Tbl_Materials" />
+            <End Role="Tbl_MaterialUsage" EntitySet="Tbl_MaterialUsage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_MaterialUsage_Tbl_Projects" Association="Self.FK_Tbl_MaterialUsage_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_MaterialUsage" EntitySet="Tbl_MaterialUsage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_ProjectAssignments_Tbl_Projects" Association="Self.FK_Tbl_ProjectAssignments_Tbl_Projects">
+            <End Role="Tbl_Projects" EntitySet="Tbl_Projects" />
+            <End Role="Tbl_ProjectAssignments" EntitySet="Tbl_ProjectAssignments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SantiyeModelStoreContainer" CdmEntityContainer="SantiyeEntities">
+          <EntitySetMapping Name="Tbl_Attendance">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Attendance">
+              <MappingFragment StoreEntitySet="Tbl_Attendance">
+                <ScalarProperty Name="AttendanceID" ColumnName="AttendanceID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="IsPresent" ColumnName="IsPresent" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Employees">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Employees">
+              <MappingFragment StoreEntitySet="Tbl_Employees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Equipment">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Equipment">
+              <MappingFragment StoreEntitySet="Tbl_Equipment">
+                <ScalarProperty Name="EquipmentID" ColumnName="EquipmentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="IsOperational" ColumnName="IsOperational" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Materials">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Materials">
+              <MappingFragment StoreEntitySet="Tbl_Materials">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_MaterialUsage">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_MaterialUsage">
+              <MappingFragment StoreEntitySet="Tbl_MaterialUsage">
+                <ScalarProperty Name="UsageID" ColumnName="UsageID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="QuantityUsed" ColumnName="QuantityUsed" />
+                <ScalarProperty Name="UsageDate" ColumnName="UsageDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_ProjectAssignments">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_ProjectAssignments">
+              <MappingFragment StoreEntitySet="Tbl_ProjectAssignments">
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="AssignedDate" ColumnName="AssignedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Projects">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Projects">
+              <MappingFragment StoreEntitySet="Tbl_Projects">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Users">
+            <EntityTypeMapping TypeName="SantiyeModel.Tbl_Users">
+              <MappingFragment StoreEntitySet="Tbl_Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

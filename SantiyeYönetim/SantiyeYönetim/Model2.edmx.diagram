@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="470b5da67928478ca62eba8d70bb1fc8" Name="Diagram1">
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Attendance" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Employees" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Equipment" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Materials" Width="1.5" PointX="3.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_MaterialUsage" Width="1.5" PointX="6" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_ProjectAssignments" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Projects" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SantiyeModel.Tbl_Users" Width="1.5" PointX="5.75" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_Attendance_Tbl_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_Attendance_Tbl_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_ProjectAssignments_Tbl_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_MaterialUsage_Tbl_Materials" ManuallyRouted="false" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_MaterialUsage_Tbl_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SantiyeModel.FK_Tbl_ProjectAssignments_Tbl_Projects" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
